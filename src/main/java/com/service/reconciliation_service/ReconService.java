@@ -62,15 +62,19 @@ public class ReconService {
 
       DataTransformation.performTransformations(config.getTransformationRules(), dfList);
 
-      dfList[1].coalesce(1)
-              .write()
-              .format("csv")
-              .option("header", "true")  // Include header in the output file
-              .mode("overwrite")  // Overwrite the file if it already exists
-              .save("./test_df/df_2");
+      try {
+        dfList[1].coalesce(1)
+                .write()
+                .format("csv")
+                .option("header", "true")  // Include header in the output file
+                .mode("overwrite")  // Overwrite the file if it already exists
+                .save("./test_files/df_2");
 
-      // stopping current active spark session
-      spark.stop();
+        // stopping current active spark session
+        spark.stop();
+      } catch (Exception e){
+        ReconLog.writeLog(e.toString());
+      }
 
     }catch (ClassCastException e) {
       log.error(e);

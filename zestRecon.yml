@@ -1,0 +1,53 @@
+zestRecon:
+  rules :
+    fileFormat:
+      # Load file if file name start with 'nameFormat'
+      # In case of multiple sheets which sheet to load
+      firstFile:
+        nameFormat: "Piramal-Bank-File"
+        sheetName:
+      secondFile:
+        nameFormat: "Piramal-Recon-File"
+        sheetName: "Merchant,Customer,Cancellation"
+
+    validationRules :
+      firstFile :
+        # Loads only the required columns in dataframe
+        # Also checks if required columns are present
+        checkColumns :
+        - "BENEFICIARY_NAME"
+        - "AMOUNT"
+      secondFile :
+        checkColumns :
+        - "MERCHANT_BENE"
+        - "CUSTOMER_BENE"
+        - "MERCHANT_PAYABLE"
+        - "CUSTOMER_PAYABLE"
+
+    transformationRules :
+      firstFile :
+
+      secondFile:
+        createNewColumns:
+          # will create new column AMOUNT with values equal to df[MERCHANT_PAYABLE] + df[CUSTOMER_PAYABLE]
+          AMOUNT : "MERCHANT_PAYABLE + CUSTOMER_PAYABLE"
+          BENEFICIARY_NAME : "concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)"
+
+
+    generateMap :
+      # create a new map for matching
+      firstFile :
+        uniqueColumn_UID : "BENEFICIARY_NAME"
+        value :
+        - [ "AMOUNT", "unique" ]
+
+      secondFile:
+        uniqueColumn_UID: "BENEFICIARY_NAME"
+        value :
+        - [ "AMOUNT", "sum" ]
+
+    matchingRules :
+      # Defines that all rows in file 1 should have a match
+      firstFile : "ALL"
+      # Defines that some rows in file 2 may or may not have a match
+      secondFile : "SOME"

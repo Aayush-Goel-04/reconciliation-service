@@ -3,8 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!/test_files/
-!/test_df/
+/test_files/*
 
 ### STS ###
 .apt_generated
@@ -33,3 +32,4 @@ build/
 
 ### VS Code ###
 .vscode/
+
