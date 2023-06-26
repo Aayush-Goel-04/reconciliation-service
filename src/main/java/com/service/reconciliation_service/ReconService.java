@@ -73,7 +73,7 @@ public class ReconService {
         // stopping current active spark session
         spark.stop();
       } catch (Exception e){
-        ReconLog.writeLog(e.toString());
+        ReconLog.writeLog("Errors while writing the dataframe \n" + e.toString());
       }
 
     }catch (ClassCastException e) {
