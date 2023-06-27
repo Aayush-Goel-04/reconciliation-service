@@ -62,6 +62,8 @@ public class ReconService {
 
       DataTransformation.performTransformations(config.getTransformationRules(), dfList);
 
+      Map<String, Object> [] maps = GenerateMap.createMaps(config.getGenerateMap(), dfList);
+
       try {
         dfList[1].coalesce(1)
                 .write()

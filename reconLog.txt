@@ -14,3 +14,7 @@ createNewColumns
 AMOUNT : MERCHANT_PAYABLE + CUSTOMER_PAYABLE
 BENEFICIARY_NAME : concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)
 Transformation Done
+- Creating Maps
+Loading rules to generate map for file 1
+Loading rules to generate map for file 2
+Maps Created
