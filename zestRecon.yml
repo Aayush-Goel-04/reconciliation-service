@@ -17,6 +17,7 @@ zestRecon:
         checkColumns :
         - "BENEFICIARY_NAME"
         - "AMOUNT"
+        - "AMT"
       secondFile :
         checkColumns :
         - "MERCHANT_BENE"
@@ -34,20 +35,29 @@ zestRecon:
           BENEFICIARY_NAME : "concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)"
 
 
-    generateMap :
-      # create a new map for matching
+    mergeRows :
+      # *************************  IMPORTANT *****************************
+      # Columns with UNIQUE operation should be placed above SUM operation
       firstFile :
+        requiredColumns :
+          - "BENEFICIARY_NAME"
+          - "AMOUNT"
+          - "AMT"
         uniqueColumn_UID : "BENEFICIARY_NAME"
         value :
-        - [ "AMOUNT", "unique" ]
+          AMOUNT : "UNIQUE"
+          AMT : "SUM"
 
       secondFile:
+        requiredColumns:
+          - "BENEFICIARY_NAME"
+          - "AMOUNT"
         uniqueColumn_UID: "BENEFICIARY_NAME"
         value :
-        - [ "AMOUNT", "sum" ]
+          AMOUNT : "SUM"
 
     matchingRules :
       # Defines that all rows in file 1 should have a match
       firstFile : "ALL"
       # Defines that some rows in file 2 may or may not have a match
-      secondFile : "SOME"
+      secondFile : "ALL"

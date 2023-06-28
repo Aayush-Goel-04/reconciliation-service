@@ -18,7 +18,7 @@ import static org.apache.spark.sql.functions.*;
 public class DataTransformation {
   Dataset<Row>[] dataframes;
   private DataTransformation() {
-    throw new IllegalStateException("Utility class");
+
   }
 
   public static void performTransformations(Map<String, Object> transformationRules,
@@ -28,7 +28,7 @@ public class DataTransformation {
     String[] files = transformationRules.keySet().toArray(new String[0]);
     for(int i=0; i< files.length ; i++){
       Map<String, Object> file = castMap(transformationRules.get(files[i]));
-      ReconLog.writeLog("Loading Transformation rules for file "+(i+1)+" : ");
+      ReconLog.writeLog("Loading Transformation rules for file "+(i+1)+" : " + file);
       if(file == null) continue;
       for(Map.Entry<String, Object> rule : file.entrySet()){
         dfList[i] = checkRule(rule.getKey(), rule.getValue(), dfList[i]);
@@ -46,7 +46,6 @@ public class DataTransformation {
       for (String column : replaceColumns) {
         df = df.withColumn(column, when(col(column).equalTo("NA"), "").otherwise(col(column)));
       }
-      ReconLog.writeLog(ruleName);
       df = createNewColumns(df, castMap(ruleValue));
     } else {
         throw new InvalidRuleException("Rule name isn't defined in service");
@@ -61,8 +60,6 @@ public class DataTransformation {
       // String[] columnsToOperate = newEntry.getValue().toArray(new String[0]);
       try {
         String expression = String.format(newEntry.getValue());
-
-        ReconLog.writeLog(newColumnName + " : " + expression);
         df = df.withColumn(newColumnName, expr(expression));
       } catch (Exception e) {
         ReconLog.writeLog("Might be an Illegal expression exception \n" + e.toString());

@@ -1,20 +1,27 @@
+- Recon Started
+16:15:24.179481
 - Config Loaded
 Current dir:/Users/ayush.goel/Documents/GitHub/reconciliation-service
-- Dataframe Created. Columns present are :
-[REFERENCE_ID, SR_NUMBER, CUSTOMER_CODE, CUSTOMER_NAME, DEBIT_ACCOUNT_NO, PRODUCT_CODE, PAYMENT_REF_NO, INSTRUMENT_NO, POSTING_DATE, INSTRUMENT_VALUE_DATE, AMOUNT, BENEFICIARY_NAME, DRAWEE_BANK_CODE, DRAWEE_BRANCH_CODE, CREDIT_ACCOUNT_NO, EMAIL_ID, Bank_name, IFSC Code, Branch, AMT, TF]
-[TRANSACTION_ID, LOAN_ID, TRANSACTION_TYPE, TRANSACTION_ENTITY_TYPE, PARTNER_ORDER_ID, REFUND_ID, DOWNPAYMENT_MODE, PROCESSING_FEE, LOAN_AMOUNT, REFUND_AMOUNT, REFUND_TYPE, ACTIVATION_DATE, SETTLEMENT_ENTITY, MERCHANT_PAYABLE, MERCHANT_BENE, MERCHANT_SETTLEMENT_ACCOUNT_NO, MERCHANT_SETTLEMENT_ACCOUNT_IFSC, CUSTOMER_PAYABLE, CUSTOMER_BENE, CUSTOMER_SETTLEMENT_ACCOUNT_NO, CUSTOMER_SETTLEMENT_ACCOUNT_IFSC, LENDER_PAYABLE_P, LENDER_PAYABLE_I, LENDER_ID, LENDER_NAME, LENDER_LOAN_ID, STATUS, UTR]
+- Dataframe Created.
+16:15:35.986739
 - Starting Validation
-Loading Validation rules for file 1 : {checkColumns=[BENEFICIARY_NAME, AMOUNT]}
+Loading Validation rules for file 1 : {checkColumns=[BENEFICIARY_NAME, AMOUNT, AMT]}
 Loading Validation rules for file 2 : {checkColumns=[MERCHANT_BENE, CUSTOMER_BENE, MERCHANT_PAYABLE, CUSTOMER_PAYABLE]}
 Validation Done
+16:15:36.148767
+[AMOUNT, BENEFICIARY_NAME, AMT]
+[MERCHANT_PAYABLE, MERCHANT_BENE, CUSTOMER_PAYABLE, CUSTOMER_BENE]
 - Starting Transformation
-Loading Transformation rules for file 1 : 
-Loading Transformation rules for file 2 : 
-createNewColumns
-AMOUNT : MERCHANT_PAYABLE + CUSTOMER_PAYABLE
-BENEFICIARY_NAME : concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)
+Loading Transformation rules for file 1 : null
+Loading Transformation rules for file 2 : {createNewColumns={AMOUNT=MERCHANT_PAYABLE + CUSTOMER_PAYABLE, BENEFICIARY_NAME=concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)}}
 Transformation Done
-- Creating Maps
-Loading rules to generate map for file 1
-Loading rules to generate map for file 2
-Maps Created
+16:15:36.833286
+- Merging Rows
+Loading rules to generate map for file 1 : {requiredColumns=[BENEFICIARY_NAME, AMOUNT, AMT], uniqueColumn_UID=BENEFICIARY_NAME, value={AMOUNT=UNIQUE, AMT=SUM}}
+Same Groups with different values found in column : AMOUNT
+Loading rules to generate map for file 2 : {requiredColumns=[BENEFICIARY_NAME, AMOUNT], uniqueColumn_UID=BENEFICIARY_NAME, value={AMOUNT=SUM}}
+Dataframes Updated
+16:15:44.402647
+- Merging Repeated Rows if any
+Removed Repeated Rows from dfs if any.
+16:15:44.881016

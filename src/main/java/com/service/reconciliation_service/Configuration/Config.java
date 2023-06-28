@@ -20,7 +20,7 @@ public class Config {
   private Map<String, Object> fileFormat;
   private Map<String, Object> validationRules;
   private Map<String, Object> transformationRules;
-  private Map<String, Object> generateMap;
+  private Map<String, Object> mergeRows;
   private Map<String, Object> matchingRules;
 
   public Map<String, Object> getFileFormat() {
@@ -47,12 +47,12 @@ public class Config {
     this.transformationRules = transformationRules;
   }
 
-  public Map<String, Object> getGenerateMap() {
-    return generateMap;
+  public Map<String, Object> getMergeRows() {
+    return mergeRows;
   }
 
-  private void setGenerateMap(Map<String, Object> generateMap) {
-    this.generateMap = generateMap;
+  private void setMergeRows(Map<String, Object> mergeRows) {
+    this.mergeRows = mergeRows;
   }
 
   public Map<String, Object> getMatchingRules() {
@@ -76,8 +76,8 @@ public class Config {
         setValidationRules(castMap(rules.get("validationRules")));
       }else if(Objects.equals(rule, "transformationRules")){
         setTransformationRules(castMap(rules.get("transformationRules")));
-      }else if(Objects.equals(rule, "generateMap")){
-        setGenerateMap(castMap(rules.get("generateMap")));
+      }else if(Objects.equals(rule, "mergeRows")){
+        setMergeRows(castMap(rules.get("mergeRows")));
       }else if(Objects.equals(rule, "matchingRules")){
         setMatchingRules(castMap(rules.get("matchingRules")));
       }

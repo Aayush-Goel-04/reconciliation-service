@@ -14,16 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
+import java.time.LocalTime;
 @Log4j2
 @Component
 public class ReconService {
-
-  @SuppressWarnings("unchecked cast")
-  public static <K, V> Map<K, V> castMap(Object obj) {
-    return (Map<K, V>) obj;
-  }
 
   public static void main(String[] args) throws IOException {
 
@@ -31,16 +25,17 @@ public class ReconService {
                       "./test_files/Piramal-Bank-File 21062023.xlsx"};
 
     String configPath = "./zestRecon.yml";
-
+    ReconLog.writeLog("- Recon Started", false);
+    ReconLog.writeLog(String.valueOf(LocalTime.now()));
     try {
       // loading config file for job
       Config config = ConfigLoader.load(configPath);
 
-      ReconLog.writeLog("- Config Loaded", false);
+      ReconLog.writeLog("- Config Loaded");
 //      ReconLog.writeLog(config.getFileFormat().toString());
 //      ReconLog.writeLog(config.getValidationRules().toString());
 //      ReconLog.writeLog(config.getTransformationRules().toString());
-//      ReconLog.writeLog(config.getGenerateMap().toString());
+//      ReconLog.writeLog(config.getMergeRows().toString());
 //      ReconLog.writeLog(config.getMatchingRules().toString());
 
       // Check File Names
@@ -51,40 +46,46 @@ public class ReconService {
 
       @SuppressWarnings("unchecked")
       Dataset<Row>[] dfList = new Dataset[2];
+      Dataset<Row>[] unmatchedDfs;
       dfList[0] = ExcelToDataframe.createDataframe(spark, files.get(0)[0], files.get(0)[1]);
       dfList[1] = ExcelToDataframe.createDataframe(spark, files.get(1)[0], files.get(1)[1]);
 
-      ReconLog.writeLog("- Dataframe Created. Columns present are :");
+      ReconLog.writeLog("- Dataframe Created.");
+      ReconLog.writeLog(String.valueOf(LocalTime.now()));
+
+      FileValidation.startValidation(config.getValidationRules(), dfList);
+      ReconLog.writeLog(String.valueOf(LocalTime.now()));
+
       ReconLog.writeLog(Arrays.toString(dfList[0].columns()));
       ReconLog.writeLog(Arrays.toString(dfList[1].columns()));
 
-      FileValidation.startValidation(config.getValidationRules(), dfList);
-
       DataTransformation.performTransformations(config.getTransformationRules(), dfList);
+      ReconLog.writeLog(String.valueOf(LocalTime.now()));
 
-      Map<String, Object> [] maps = GenerateMap.createMaps(config.getGenerateMap(), dfList);
+      MergeRows.startMergingRows(config.getMergeRows(), dfList);
+      ReconLog.writeLog(String.valueOf(LocalTime.now()));
+
+      unmatchedDfs = RemoveRepeatedRows.removeRepeated(config.getMergeRows(), dfList);
+      ReconLog.writeLog(String.valueOf(LocalTime.now()));
 
       try {
-        dfList[1].coalesce(1)
-                .write()
-                .format("csv")
-                .option("header", "true")  // Include header in the output file
-                .mode("overwrite")  // Overwrite the file if it already exists
-                .save("./test_files/df_2");
-
-        // stopping current active spark session
-        spark.stop();
+//        writeDF(dfList[0], "./test_files/DF_1");
+//        writeDF(dfList[1], "./test_files/DF_2");
+//        writeDF(unmatchedDfs[0], "./test_files/unmatchedDF_1");
+//        writeDF(unmatchedDfs[1], "./test_files/unmatchedDF_2");
+//        ReconLog.writeLog("- Dataframe written in test-files folder");
+//        ReconLog.writeLog(String.valueOf(LocalTime.now()));
       } catch (Exception e){
-        ReconLog.writeLog("Errors while writing the dataframe \n" + e.toString());
+        ReconLog.writeLog("Errors while writing the dataframe \n" + e);
       }
-
+      spark.stop();
     }catch (ClassCastException e) {
       log.error(e);
     }
 
   }
 
-  public static SparkSession createSparkSession() throws IOException {
+  private static SparkSession createSparkSession() throws IOException {
     String currentPath = new File(".").getCanonicalPath();
     ReconLog.writeLog("Current dir:" + currentPath);
 
@@ -94,5 +95,14 @@ public class ReconService {
             .appName("ExcelToDataframe")
             .master("local[*]")
             .getOrCreate();
+  }
+
+  private static void writeDF(Dataset<Row> dataframe, String name){
+    dataframe.coalesce(1)
+            .write()
+            .format("csv")
+            .option("header", "true")  // Include header in the output file
+            .mode("overwrite")  // Overwrite the file if it already exists
+            .save(name);
   }
 }
