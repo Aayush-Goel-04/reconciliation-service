@@ -8,10 +8,7 @@ import org.apache.spark.sql.Row;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import static com.service.reconciliation_service.Configuration.Config.castMap;
 
@@ -20,7 +17,7 @@ import static com.service.reconciliation_service.Configuration.Config.castMap;
 public class FileValidation {
 
   private FileValidation() {
-    throw new IllegalStateException("Utility class");
+
   }
 
   public static void startValidation(Map<String, Object> validationRules, Dataset<Row>[] dfList) throws IOException {
@@ -31,23 +28,25 @@ public class FileValidation {
       Map<String, Object> file = castMap(validationRules.get(files[i]));
       ReconLog.writeLog("Loading Validation rules for file "+(i+1)+" : " + file);
       for(Map.Entry<String, Object> rule : file.entrySet()){
-        checkRule(rule.getKey(), rule.getValue(), dfList[i]);
+        dfList[i] = checkRule(rule.getKey(), rule.getValue(), dfList[i]);
       }
     }
     ReconLog.writeLog("Validation Done");
   }
 
-  public static void checkRule(String ruleName, Object ruleValue, Dataset<Row> df) throws IOException {
+  public static Dataset<Row> checkRule(String ruleName, Object ruleValue, Dataset<Row> df) throws IOException {
 
-    switch (ruleName){
-
-      case "checkColumns":
-        if(!checkColumns(df, (ArrayList<String>) ruleValue)){
-          throw new ValidationException("Column Names Not Found in Dataframe");
-        }
-        break;
+    if(Objects.equals(ruleName, "checkColumns")) {
+      ArrayList<String> columns = (ArrayList<String>) ruleValue;
+      if (!checkColumns(df, columns)) {
+        throw new ValidationException("Column Names Not Found in Dataframe");
+      } else {
+        ArrayList<String> columnsToDrop = new ArrayList<>(Arrays.asList(df.columns()));
+        columnsToDrop.removeAll(columns);
+        return df.drop(columnsToDrop.toArray(new String[0]));
+      }
       // To add new rules add new cases and checks.
-      default:
+    } else {
         throw new InvalidRuleException("Rule name isn't defined in service");
     }
   }

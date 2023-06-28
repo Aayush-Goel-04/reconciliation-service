@@ -10,7 +10,7 @@ import java.util.List;
 public class WriteToText{
 
   private WriteToText() {
-    throw new IllegalStateException("Utility class");
+
   }
   // Define the column widths for each column
   static int[] columnWidths = {30, 20, 20, 25, 30, 12, 20, 16, 14, 14, 14, 27, 20, 25, 50, 40, 40, 25, 50, 40, 40, 20, 20, 45, 20, 20, 15, 30, 50, 50};

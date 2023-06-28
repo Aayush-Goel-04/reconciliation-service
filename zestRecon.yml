@@ -35,16 +35,23 @@ zestRecon:
 
 
     generateMap :
-      # create a new map for matching
+      # *************************  IMPORTANT *****************************
+      # Columns with UNIQUE operation should be placed above SUM operation
       firstFile :
+        requiredColumns :
+          - "BENEFICIARY_NAME"
+          - "AMOUNT"
         uniqueColumn_UID : "BENEFICIARY_NAME"
         value :
-        - [ "AMOUNT", "unique" ]
+          AMOUNT : "UNIQUE"
 
       secondFile:
+        requiredColumns:
+          - "BENEFICIARY_NAME"
+          - "AMOUNT"
         uniqueColumn_UID: "BENEFICIARY_NAME"
         value :
-        - [ "AMOUNT", "sum" ]
+          AMOUNT : "SUM"
 
     matchingRules :
       # Defines that all rows in file 1 should have a match

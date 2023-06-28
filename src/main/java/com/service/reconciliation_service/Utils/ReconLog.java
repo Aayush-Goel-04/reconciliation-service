@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ReconLog {
 
   private ReconLog() {
-    throw new IllegalStateException("Utility class");
+
   }
 
 

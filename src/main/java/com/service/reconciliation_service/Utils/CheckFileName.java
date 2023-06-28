@@ -16,7 +16,7 @@ import static com.service.reconciliation_service.Configuration.Config.castMap;
 @Component
 public class CheckFileName {
   private CheckFileName() {
-    throw new IllegalStateException("Utility class");
+
   }
 
   public static List<String []> checkFileNameFormat(Map<String, Object> fileFormat , String[] filePaths) throws IOException {

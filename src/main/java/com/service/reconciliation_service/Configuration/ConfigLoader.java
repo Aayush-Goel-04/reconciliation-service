@@ -15,7 +15,6 @@ import java.util.Map;
 public class ConfigLoader {
 
   private ConfigLoader() {
-    throw new IllegalStateException("Utility class");
   }
   public static Config load(String path) throws IOException{
     InputStream inputStream = new FileInputStream(new File(path));

@@ -19,7 +19,7 @@ import java.util.List;
 @Log4j2
 public class ExcelToDataframe {
   private ExcelToDataframe() {
-    throw new IllegalStateException("Utility class");
+
   }
 
   public static Dataset<Row> createDataframe(SparkSession spark, String filePath, String sheetName) throws IOException {

@@ -14,16 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Log4j2
 @Component
 public class ReconService {
-
-  @SuppressWarnings("unchecked cast")
-  public static <K, V> Map<K, V> castMap(Object obj) {
-    return (Map<K, V>) obj;
-  }
 
   public static void main(String[] args) throws IOException {
 
@@ -54,17 +48,24 @@ public class ReconService {
       dfList[0] = ExcelToDataframe.createDataframe(spark, files.get(0)[0], files.get(0)[1]);
       dfList[1] = ExcelToDataframe.createDataframe(spark, files.get(1)[0], files.get(1)[1]);
 
-      ReconLog.writeLog("- Dataframe Created. Columns present are :");
-      ReconLog.writeLog(Arrays.toString(dfList[0].columns()));
-      ReconLog.writeLog(Arrays.toString(dfList[1].columns()));
+      ReconLog.writeLog("- Dataframe Created.");
 
       FileValidation.startValidation(config.getValidationRules(), dfList);
 
+      ReconLog.writeLog(Arrays.toString(dfList[0].columns()));
+      ReconLog.writeLog(Arrays.toString(dfList[1].columns()));
+
       DataTransformation.performTransformations(config.getTransformationRules(), dfList);
 
-      Map<String, Object> [] maps = GenerateMap.createMaps(config.getGenerateMap(), dfList);
+      GenerateMap.createMaps(config.getGenerateMap(), dfList);
 
       try {
+        dfList[0].coalesce(1)
+                .write()
+                .format("csv")
+                .option("header", "true")  // Include header in the output file
+                .mode("overwrite")  // Overwrite the file if it already exists
+                .save("./test_files/df_1");
         dfList[1].coalesce(1)
                 .write()
                 .format("csv")
@@ -73,11 +74,10 @@ public class ReconService {
                 .save("./test_files/df_2");
 
         // stopping current active spark session
-        spark.stop();
       } catch (Exception e){
-        ReconLog.writeLog("Errors while writing the dataframe \n" + e.toString());
+        ReconLog.writeLog("Errors while writing the dataframe \n" + e);
       }
-
+      spark.stop();
     }catch (ClassCastException e) {
       log.error(e);
     }
