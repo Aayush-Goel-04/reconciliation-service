@@ -6,6 +6,8 @@ import org.apache.spark.sql.Column;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.expressions.Window;
+import org.springframework.stereotype.Component;
+
 import static org.apache.spark.sql.functions.*;
 
 import java.io.IOException;
@@ -18,13 +20,14 @@ import static com.service.reconciliation_service.Configuration.Config.castMap;
 
 
 @Log4j2
-public class GenerateMap {
+@Component
+public class MergeRows {
 
-  private GenerateMap() {
+  private MergeRows() {
 
   }
 
-  public static void createMaps(Map<String, Object> mapRules, Dataset<Row>[] dfList) throws IOException {
+  public static void startMergingRows(Map<String, Object> mapRules, Dataset<Row>[] dfList) throws IOException {
     ReconLog.writeLog("- Merging Rows");
     String[] files = mapRules.keySet().toArray(new String[0]);
     for(int i=0; i< files.length ; i++){
@@ -32,11 +35,11 @@ public class GenerateMap {
       ReconLog.writeLog("Loading rules to generate map for file "+(i+1)+" : " + file);
       String uid = (String) file.get("uniqueColumn_UID");
       Map<String, String> values = castMap(file.get("value"));
-      dfList[i] = mergeRows(dfList[i], uid , (ArrayList<String>) file.get("requiredColumns"), values);
+      dfList[i] = mergingRows(dfList[i], uid , (ArrayList<String>) file.get("requiredColumns"), values);
     }
     ReconLog.writeLog("Dataframes Updated");
   }
-  public static Dataset<Row> mergeRows(Dataset<Row> df, String uid,
+  private static Dataset<Row> mergingRows(Dataset<Row> df, String uid,
                                        List<String> allColumns, Map<String, String> columns) throws IOException {
     String validInitial = "valid_initial";
     String distinctCounts = "distinct_count";

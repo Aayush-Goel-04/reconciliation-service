@@ -35,7 +35,7 @@ public class ReconService {
 //      ReconLog.writeLog(config.getFileFormat().toString());
 //      ReconLog.writeLog(config.getValidationRules().toString());
 //      ReconLog.writeLog(config.getTransformationRules().toString());
-//      ReconLog.writeLog(config.getGenerateMap().toString());
+//      ReconLog.writeLog(config.getMergeRows().toString());
 //      ReconLog.writeLog(config.getMatchingRules().toString());
 
       // Check File Names
@@ -62,10 +62,10 @@ public class ReconService {
       DataTransformation.performTransformations(config.getTransformationRules(), dfList);
       ReconLog.writeLog(String.valueOf(LocalTime.now()));
 
-      GenerateMap.createMaps(config.getGenerateMap(), dfList);
+      MergeRows.startMergingRows(config.getMergeRows(), dfList);
       ReconLog.writeLog(String.valueOf(LocalTime.now()));
 
-      unmatchedDfs = RemoveRepeatedRows.removeRepeated(config.getGenerateMap(), dfList);
+      unmatchedDfs = RemoveRepeatedRows.removeRepeated(config.getMergeRows(), dfList);
       ReconLog.writeLog(String.valueOf(LocalTime.now()));
 
       try {
