@@ -1,50 +1,27 @@
 - Recon Started
-<<<<<<< Updated upstream
-13:33:23.772252
+16:31:00.576584
 - Config Loaded
 Current dir:/Users/ayush.goel/Documents/GitHub/reconciliation-service
 - Dataframe Created.
-13:33:35.369299
-=======
-16:20:36.315592
-- Config Loaded
-Current dir:/Users/ayush.goel/Documents/GitHub/reconciliation-service
-- Dataframe Created.
-16:20:48.300118
->>>>>>> Stashed changes
+16:31:13.314186
 - Starting Validation
 Loading Validation rules for file 1 : {checkColumns=[BENEFICIARY_NAME, AMOUNT, AMT]}
 Loading Validation rules for file 2 : {checkColumns=[MERCHANT_BENE, CUSTOMER_BENE, MERCHANT_PAYABLE, CUSTOMER_PAYABLE]}
 Validation Done
-<<<<<<< Updated upstream
-13:33:35.486179
-=======
-16:20:48.402101
->>>>>>> Stashed changes
+16:31:13.460322
 [AMOUNT, BENEFICIARY_NAME, AMT]
 [MERCHANT_PAYABLE, MERCHANT_BENE, CUSTOMER_PAYABLE, CUSTOMER_BENE]
 - Starting Transformation
 Loading Transformation rules for file 1 : null
 Loading Transformation rules for file 2 : {createNewColumns={AMOUNT=MERCHANT_PAYABLE + CUSTOMER_PAYABLE, BENEFICIARY_NAME=concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)}}
 Transformation Done
-<<<<<<< Updated upstream
-13:33:36.196277
-=======
-16:20:49.162152
->>>>>>> Stashed changes
+16:31:14.259390
 - Merging Rows
 Loading rules to generate map for file 1 : {requiredColumns=[BENEFICIARY_NAME, AMOUNT, AMT], uniqueColumn_UID=BENEFICIARY_NAME, value={AMOUNT=UNIQUE, AMT=SUM}}
 Same Groups with different values found in column : AMOUNT
 Loading rules to generate map for file 2 : {requiredColumns=[BENEFICIARY_NAME, AMOUNT], uniqueColumn_UID=BENEFICIARY_NAME, value={AMOUNT=SUM}}
 Dataframes Updated
-<<<<<<< Updated upstream
-13:33:43.536768
+16:31:23.405865
 - Merging Repeated Rows if any
 Removed Repeated Rows from dfs if any.
-13:33:44.257601
-=======
-16:20:56.897063
-- Merging Repeated Rows if any
-Removed Repeated Rows from dfs if any.
-16:20:57.519501
->>>>>>> Stashed changes
+16:31:24.039890
