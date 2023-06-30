@@ -1,17 +1,27 @@
+- Recon Started
+13:33:23.772252
 - Config Loaded
 Current dir:/Users/ayush.goel/Documents/GitHub/reconciliation-service
 - Dataframe Created.
+13:33:35.369299
 - Starting Validation
-Loading Validation rules for file 1 : {checkColumns=[BENEFICIARY_NAME, AMOUNT]}
+Loading Validation rules for file 1 : {checkColumns=[BENEFICIARY_NAME, AMOUNT, AMT]}
 Loading Validation rules for file 2 : {checkColumns=[MERCHANT_BENE, CUSTOMER_BENE, MERCHANT_PAYABLE, CUSTOMER_PAYABLE]}
 Validation Done
-[AMOUNT, BENEFICIARY_NAME]
+13:33:35.486179
+[AMOUNT, BENEFICIARY_NAME, AMT]
 [MERCHANT_PAYABLE, MERCHANT_BENE, CUSTOMER_PAYABLE, CUSTOMER_BENE]
 - Starting Transformation
 Loading Transformation rules for file 1 : null
 Loading Transformation rules for file 2 : {createNewColumns={AMOUNT=MERCHANT_PAYABLE + CUSTOMER_PAYABLE, BENEFICIARY_NAME=concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)}}
 Transformation Done
+13:33:36.196277
 - Merging Rows
-Loading rules to generate map for file 1 : {requiredColumns=[BENEFICIARY_NAME, AMOUNT], uniqueColumn_UID=BENEFICIARY_NAME, value={AMOUNT=UNIQUE}}
+Loading rules to generate map for file 1 : {requiredColumns=[BENEFICIARY_NAME, AMOUNT, AMT], uniqueColumn_UID=BENEFICIARY_NAME, value={AMOUNT=UNIQUE, AMT=SUM}}
+Same Groups with different values found in column : AMOUNT
 Loading rules to generate map for file 2 : {requiredColumns=[BENEFICIARY_NAME, AMOUNT], uniqueColumn_UID=BENEFICIARY_NAME, value={AMOUNT=SUM}}
 Dataframes Updated
+13:33:43.536768
+- Merging Repeated Rows if any
+Removed Repeated Rows from dfs if any.
+13:33:44.257601

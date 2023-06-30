@@ -17,6 +17,7 @@ zestRecon:
         checkColumns :
         - "BENEFICIARY_NAME"
         - "AMOUNT"
+        - "AMT"
       secondFile :
         checkColumns :
         - "MERCHANT_BENE"
@@ -41,9 +42,11 @@ zestRecon:
         requiredColumns :
           - "BENEFICIARY_NAME"
           - "AMOUNT"
+          - "AMT"
         uniqueColumn_UID : "BENEFICIARY_NAME"
         value :
           AMOUNT : "UNIQUE"
+          AMT : "SUM"
 
       secondFile:
         requiredColumns:
