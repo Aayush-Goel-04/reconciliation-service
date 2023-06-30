@@ -35,7 +35,7 @@ zestRecon:
           BENEFICIARY_NAME : "concat_ws('', MERCHANT_BENE, CUSTOMER_BENE)"
 
 
-    generateMap :
+    mergeRows :
       # *************************  IMPORTANT *****************************
       # Columns with UNIQUE operation should be placed above SUM operation
       firstFile :
