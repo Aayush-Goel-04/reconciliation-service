@@ -1,0 +1,13 @@
+validation:
+  fileNames:
+    - "bank"
+    - "recon"
+
+  columnNames:
+    "bank.csv":
+      - "customername"
+      - "bankaccountno"
+      - "receiptamount"
+    "recon.csv":
+      - "Name"
+      - "Amount"
