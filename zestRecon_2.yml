@@ -1,0 +1,58 @@
+zestRecon_1:
+  rules :
+    fileFormat:
+      # Load file if file name start with 'nameFormat'
+      # In case of multiple sheets which sheet to load
+      Piramal-Recon-File:
+        nameFormat: "Piramal-Recon-File"
+        sheetName: "Merchant,Customer,Cancellation"
+      Portfolio Report:
+        nameFormat: "Portfolio Report"
+        sheetName:
+
+    validationRules :
+      Piramal-Recon-File :
+        # Loads only the required columns in dataframe
+        # Also checks if required columns are present
+        checkColumns :
+        - "LOAN_AMOUNT"
+        - "LENDER_LOAN_ID"
+      Portfolio Report :
+        checkColumns :
+        - "Loan Reference"
+        - "Loan Amount"
+
+    transformationRules :
+      Piramal-Recon-File :
+        createColumns:
+          LOAN_AMOUNT : "CAST(REGEXP_REPLACE(`LOAN_AMOUNT`, ',', '') AS DOUBLE)"
+      Portfolio Report:
+        createColumns:
+          Loan Amount : "CAST(REGEXP_REPLACE(`Loan Amount`, ',', '') AS DOUBLE)"
+
+    mergeRows :
+      # *************************  IMPORTANT *****************************
+      # Columns with UNIQUE operation should be placed above SUM operation
+      Piramal-Recon-File :
+        requiredColumns :
+          - "LENDER_LOAN_ID"
+          - "LOAN_AMOUNT"
+        uniqueColumn_UID : "LENDER_LOAN_ID"
+        value :
+          LOAN_AMOUNT : "UNIQUE"
+
+      Portfolio Report:
+        requiredColumns:
+          - "Loan Reference"
+          - "Loan Amount"
+        uniqueColumn_UID: "Loan Reference"
+        value :
+          Loan Amount : "UNIQUE"
+
+    matchingRules :
+      matchCondition : "df1.`LENDER_LOAN_ID` = df2.`Loan Reference` AND df1.`LOAN_AMOUNT` = df2.`Loan Amount`"
+      # Defines that all rows in file 1 should have a match
+      files:
+        Piramal-Recon-File : "ALL"
+        # Defines that some rows in file 2 may or may not have a match
+        Portfolio Report : "SOME"

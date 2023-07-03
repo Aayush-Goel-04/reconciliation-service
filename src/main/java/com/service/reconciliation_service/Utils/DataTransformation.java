@@ -38,22 +38,22 @@ public class DataTransformation {
 
   }
 
-  public static Dataset<Row> checkRule(String ruleName, Object ruleValue, Dataset<Row> df) throws IOException {
+  private static Dataset<Row> checkRule(String ruleName, Object ruleValue, Dataset<Row> df) throws IOException {
 
-    if(Objects.equals(ruleName, "createNewColumns")) {
+    if(Objects.equals(ruleName, "createColumns")) {
       if (ruleValue == null) return df;
       String[] replaceColumns = df.columns();
       for (String column : replaceColumns) {
         df = df.withColumn(column, when(col(column).equalTo("NA"), "").otherwise(col(column)));
       }
-      df = createNewColumns(df, castMap(ruleValue));
+      df = createColumns(df, castMap(ruleValue));
     } else {
         throw new InvalidRuleException("Rule name isn't defined in service");
     }
     return df;
   }
 
-  private static Dataset<Row> createNewColumns(Dataset<Row> df,
+  private static Dataset<Row> createColumns(Dataset<Row> df,
                                                Map<String, String> rules) throws IOException {
     for(Map.Entry<String, String> newEntry : rules.entrySet()){
       String newColumnName = newEntry.getKey();

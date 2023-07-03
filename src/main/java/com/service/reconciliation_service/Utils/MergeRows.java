@@ -11,10 +11,7 @@ import org.springframework.stereotype.Component;
 import static org.apache.spark.sql.functions.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static com.service.reconciliation_service.Configuration.Config.castMap;
 
@@ -48,9 +45,7 @@ public class MergeRows {
       Column[] groupByColumns = new Column[allColumns.size() - 1];
       int index = 0;
       for (String currentColumn : allColumns) {
-        if (currentColumn.equals(column.getKey())) {
-          continue; // Skip the column mentioned in the condition
-        }
+        if (currentColumn.equals(column.getKey())) continue; // Skip the column mentioned in the condition
         groupByColumns[index] = col(currentColumn);
         index++;
       }
@@ -80,7 +75,7 @@ public class MergeRows {
       }else
         throw new IllegalOperationException(column.getValue() + " is not a defined operation");
     }
-    df = df.drop(validInitial).drop(distinctCounts);
+    df = df.drop(validInitial);
     return df;
   }
 }

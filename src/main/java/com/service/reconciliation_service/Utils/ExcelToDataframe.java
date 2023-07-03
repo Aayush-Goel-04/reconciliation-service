@@ -30,6 +30,9 @@ public class ExcelToDataframe {
   }
 
   private static Dataset<Row> readExcel(SparkSession spark, String filePath, String sheetName) throws IOException {
+    if(filePath.endsWith(".csv"))
+      return spark.read().option("header", "true").csv(filePath);
+
     try (FileInputStream fis = new FileInputStream(filePath);
          Workbook workbook = WorkbookFactory.create(fis)) {
 
