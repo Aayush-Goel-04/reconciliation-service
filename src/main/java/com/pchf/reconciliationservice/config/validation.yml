@@ -1,0 +1,17 @@
+validation:
+  fileNames:
+    - "bank.csv"
+    - "recon.csv"
+
+  validationRules :
+    firstFile :
+      checkColumns :
+        - "BENEFICIARY_NAME"
+        - "AMOUNT"
+        - "AMT"
+    secondFile :
+      checkColumns :
+        - "MERCHANT_BENE"
+        - "CUSTOMER_BENE"
+        - "MERCHANT_PAYABLE"
+        - "CUSTOMER_PAYABLE"

@@ -1,4 +1,4 @@
-package com.service.reconciliation_service;
+package com.pchf.reconciliationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
