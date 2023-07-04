@@ -3,7 +3,6 @@ package com.service.reconciliation_service.Controller;
 import com.service.reconciliation_service.Utils.*;
 import com.service.reconciliation_service.Configuration.Config;
 import com.service.reconciliation_service.Configuration.ConfigLoader;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -16,19 +15,21 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.time.LocalTime;
+
 @Log4j2
 @Component
 public class ReconService {
-@SneakyThrows
   public static void main(String[] args) throws IOException {
 
 //    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
 //                      "./test_files/Piramal-Bank-File 21062023.xlsx"};
 //    String configPath = "./zestRecon_1.yml";
 
+
     String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
                       "./test_files/Portfolio Report.csv"};
     String configPath = "./zestRecon_2.yml";
+
 
     ReconLog.writeLog("- Recon Started", false);
     ReconLog.writeLog(String.valueOf(LocalTime.now()));

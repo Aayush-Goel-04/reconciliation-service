@@ -1,36 +1,36 @@
 - Recon Started
-02:01:30.533545
+14:09:46.578077
 - Config Loaded
 Current dir:/Users/ayush.goel/Documents/GitHub/reconciliation-service
 - Dataframe Created.
-02:01:40.634315
+14:09:54.897276
 [TRANSACTION_ID, LOAN_ID, TRANSACTION_TYPE, TRANSACTION_ENTITY_TYPE, PARTNER_ORDER_ID, REFUND_ID, DOWNPAYMENT_MODE, PROCESSING_FEE, LOAN_AMOUNT, REFUND_AMOUNT, REFUND_TYPE, ACTIVATION_DATE, SETTLEMENT_ENTITY, MERCHANT_PAYABLE, MERCHANT_BENE, MERCHANT_SETTLEMENT_ACCOUNT_NO, MERCHANT_SETTLEMENT_ACCOUNT_IFSC, CUSTOMER_PAYABLE, CUSTOMER_BENE, CUSTOMER_SETTLEMENT_ACCOUNT_NO, CUSTOMER_SETTLEMENT_ACCOUNT_IFSC, LENDER_PAYABLE_P, LENDER_PAYABLE_I, LENDER_ID, LENDER_NAME, LENDER_LOAN_ID, STATUS, UTR]
 [S. NO., Loan Reference, _c2, Loan Type, Branch code, Branch Description, Customer CIF, Customer Name, Tenure, ROI, Loan Amount, Loan Activation date , Loan posting date , Disbursement Party, Disbursement Type, Beneficiary Bank, Account Number, Account Holder Name, Amount to be Realized, Installment start date, Loan Maturity date, Installment Amount, Total Principal , Total Interest, Disbursement Status, Transaction Reference , UTR Date, Total Interest Accrued, _c28, Outstanding Principal, _c30, Outstanding Interest, Excess Amount]
 - Starting Validation
 Loading Validation rules for file 1 : {checkColumns=[LOAN_AMOUNT, LENDER_LOAN_ID]}
 Loading Validation rules for file 2 : {checkColumns=[Loan Reference, Loan Amount]}
 Validation Done
-02:01:40.677209
+14:09:54.904948
 [LOAN_AMOUNT, LENDER_LOAN_ID]
 [Loan Reference, Loan Amount]
 - Starting Transformation
 Loading Transformation rules for file 1 : {createColumns={LOAN_AMOUNT=CAST(REGEXP_REPLACE(`LOAN_AMOUNT`, ',', '') AS DOUBLE)}}
 Loading Transformation rules for file 2 : {createColumns={Loan Amount=CAST(REGEXP_REPLACE(`Loan Amount`, ',', '') AS DOUBLE)}}
 Transformation Done
-02:01:41.110909
+14:09:54.950469
 - Merging Rows
 Loading rules to generate map for file 1 : {requiredColumns=[LENDER_LOAN_ID, LOAN_AMOUNT], uniqueColumn_UID=LENDER_LOAN_ID, value={LOAN_AMOUNT=UNIQUE}}
 Same Groups with different values found in column : LOAN_AMOUNT
 Loading rules to generate map for file 2 : {requiredColumns=[Loan Reference, Loan Amount], uniqueColumn_UID=Loan Reference, value={Loan Amount=UNIQUE}}
 Dataframes Updated
-02:01:51.867592
+14:09:56.236834
 - Merging Repeated Rows if any
 Removed Repeated Rows from dfs if any.
-02:01:51.998398
+14:09:56.250357
 - Starting Matching
 Matching Done
-02:01:52.254657
+14:09:56.300622
 - Printing Recon Results
 Dataframe is null : ./test_files/unmatchedDF_2
 - Dataframe written in test-files folder
-02:02:07.209799
+14:09:57.498489
