@@ -5,10 +5,8 @@ zestRecon_1:
       # In case of multiple sheets which sheet to load
       Piramal-Bank-File:
         nameFormat: "Piramal-Bank-File"
-        sheetName:
       Piramal-Recon-File:
         nameFormat: "Piramal-Recon-File"
-        sheetName: "Merchant,Customer,Cancellation"
 
     validationRules :
       Piramal-Bank-File :
@@ -42,7 +40,7 @@ zestRecon_1:
           - "BENEFICIARY_NAME"
           - "AMOUNT"
         uniqueColumn_UID : "BENEFICIARY_NAME"
-        value :
+        columnMergeType :
           AMOUNT : "UNIQUE"
 
       Piramal-Recon-File:
@@ -50,13 +48,13 @@ zestRecon_1:
           - "BENEFICIARY_NAME"
           - "AMOUNT"
         uniqueColumn_UID: "BENEFICIARY_NAME"
-        value :
+        columnMergeType :
           AMOUNT : "SUM"
 
     matchingRules :
       matchCondition: "df1.BENEFICIARY_NAME = df2.BENEFICIARY_NAME AND df1.AMOUNT = df2.AMOUNT"
       # Defines that all rows in file 1 should have a match
-      files:
+      fileMatchType:
         Piramal-Bank-File: "ALL"
         # Defines that some rows in file 2 may or may not have a match
         Piramal-Recon-File: "ALL"

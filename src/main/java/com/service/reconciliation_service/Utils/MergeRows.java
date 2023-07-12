@@ -31,7 +31,7 @@ public class MergeRows {
       Map<String, Object> file = castMap(mapRules.get(files[i]));
       ReconLog.writeLog("Loading rules to generate map for file "+(i+1)+" : " + file);
       String uid = (String) file.get("uniqueColumn_UID");
-      Map<String, String> values = castMap(file.get("value"));
+      Map<String, String> values = castMap(file.get("columnMergeType"));
       dfList[i] = mergingRows(dfList[i], uid , (ArrayList<String>) file.get("requiredColumns"), values);
     }
     ReconLog.writeLog("Dataframes Updated");

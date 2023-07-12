@@ -21,14 +21,14 @@ import java.time.LocalTime;
 public class ReconService {
   public static void main(String[] args) throws IOException {
 
-//    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
-//                      "./test_files/Piramal-Bank-File 21062023.xlsx"};
-//    String configPath = "./zestRecon_1.yml";
-
-
     String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
-                      "./test_files/Portfolio Report.csv"};
-    String configPath = "./zestRecon_2.yml";
+                      "./test_files/Piramal-Bank-File 21062023.xlsx"};
+    String configPath = "./zestRecon_1.yml";
+
+
+//    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
+//                      "./test_files/Portfolio Report.csv"};
+//    String configPath = "./zestRecon_2.yml";
 
 
     ReconLog.writeLog("- Recon Started", false);

@@ -28,7 +28,7 @@ public class DataMatching {
     // Matched Entries from both dataframes
     Dataset<Row> similarEntries = df1.alias("df1").join(df2.alias("df2"), expr(joinCondition), "left_semi");
 
-    Map<String, String> fileMatchTypes = castMap(matchingRules.get("files"));
+    Map<String, String> fileMatchTypes = castMap(matchingRules.get("fileMatchType"));
     String[] files = fileMatchTypes.keySet().toArray(new String[0]);
 
 

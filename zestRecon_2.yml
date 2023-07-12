@@ -5,10 +5,8 @@ zestRecon_1:
       # In case of multiple sheets which sheet to load
       Piramal-Recon-File:
         nameFormat: "Piramal-Recon-File"
-        sheetName: "Merchant,Customer,Cancellation"
       Portfolio Report:
         nameFormat: "Portfolio Report"
-        sheetName:
 
     validationRules :
       Piramal-Recon-File :
@@ -38,7 +36,7 @@ zestRecon_1:
           - "LENDER_LOAN_ID"
           - "LOAN_AMOUNT"
         uniqueColumn_UID : "LENDER_LOAN_ID"
-        value :
+        columnMergeType :
           LOAN_AMOUNT : "UNIQUE"
 
       Portfolio Report:
@@ -46,13 +44,13 @@ zestRecon_1:
           - "Loan Reference"
           - "Loan Amount"
         uniqueColumn_UID: "Loan Reference"
-        value :
+        columnMergeType :
           Loan Amount : "UNIQUE"
 
     matchingRules :
       matchCondition : "df1.`LENDER_LOAN_ID` = df2.`Loan Reference` AND df1.`LOAN_AMOUNT` = df2.`Loan Amount`"
       # Defines that all rows in file 1 should have a match
-      files:
+      fileMatchType:
         Piramal-Recon-File : "ALL"
         # Defines that some rows in file 2 may or may not have a match
         Portfolio Report : "SOME"
