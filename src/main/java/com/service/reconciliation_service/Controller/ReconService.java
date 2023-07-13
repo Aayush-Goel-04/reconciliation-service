@@ -21,9 +21,13 @@ import java.time.LocalTime;
 public class ReconService {
   public static void main(String[] args) throws IOException {
 
-    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
-                      "./test_files/Piramal-Bank-File 21062023.xlsx"};
-    String configPath = "./zestRecon_1.yml";
+    String[] paths = {"./test_files/Piramal-Bank-Data-SBI_3-7-2023.csv",
+            "./test_files/Piramal-Book-Data-SBI_3-7-2023.csv"};
+    String configPath = "./Algofusion_1.yml";
+
+//    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
+//                      "./test_files/Piramal-Bank-File 21062023.xlsx"};
+//    String configPath = "./zestRecon_1.yml";
 
 
 //    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
@@ -38,11 +42,6 @@ public class ReconService {
       Config config = ConfigLoader.load(configPath);
 
       ReconLog.writeLog("- Config Loaded");
-//      ReconLog.writeLog(config.getFileFormat().toString());
-//      ReconLog.writeLog(config.getValidationRules().toString());
-//      ReconLog.writeLog(config.getTransformationRules().toString());
-//      ReconLog.writeLog(config.getMergeRows().toString());
-//      ReconLog.writeLog(config.getMatchingRules().toString());
 
       // Check File Names
       List<String []> files = CheckFileName.checkFileNameFormat(config.getFileFormat(),paths);

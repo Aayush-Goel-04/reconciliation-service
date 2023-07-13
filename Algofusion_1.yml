@@ -1,0 +1,62 @@
+zestRecon_1:
+  rules :
+    fileFormat:
+      # Load file if file name start with 'nameFormat'
+      # In case of multiple sheets which sheet to load
+      Piramal-Book-Data-SBI:
+        nameFormat: "Piramal-Book-Data-SBI"
+      Piramal-Bank-Data-SBI:
+        nameFormat: "Piramal-Bank-Data-SBI"
+
+    validationRules :
+      Piramal-Book-Data-SBI :
+        # Loads only the required columns in dataframe
+        # Also checks if required columns are present
+        checkColumns :
+        - "paymenttype"
+        - "transactionref"
+        - "Account No"
+        - "receiptamount"
+
+      Piramal-Bank-Data-SBI :
+        checkColumns :
+        - "Description"
+        - "Debit"
+
+    transformationRules :
+      Piramal-Book-Data-SBI:
+        createColumns:
+          TRANSACTION_REF: "CASE WHEN paymenttype = 'IFT' THEN `Account No` WHEN paymenttype = 'NEFT' THEN transactionref ELSE NULL END"
+          AMOUNT: "CAST(REGEXP_REPLACE(receiptamount, ',', '') AS DOUBLE)"
+
+      Piramal-Bank-Data-SBI:
+        createColumns:
+          TRANSACTION_REF: "CASE WHEN instr(Description, 'NEFT') > 0 THEN regexp_extract(Description, '\\\\bSBIN\\\\w+', 0) ELSE split(split(Description, 'TRANSFER TO')[1], '\\\\s+')[1] END"
+          AMOUNT: "CAST(REGEXP_REPLACE(Debit, ',', '') AS DOUBLE)"
+
+    mergeRows :
+      # *************************  IMPORTANT *****************************
+      # Columns with UNIQUE operation should be placed above SUM operation
+      Piramal-Book-Data-SBI :
+        requiredColumns :
+          - "TRANSACTION_REF"
+          - "AMOUNT"
+        uniqueColumn_UID : "TRANSACTION_REF"
+        columnMergeType :
+          AMOUNT : "SUM"
+
+      Piramal-Bank-Data-SBI:
+        requiredColumns:
+          - "TRANSACTION_REF"
+          - "AMOUNT"
+        uniqueColumn_UID: "TRANSACTION_REF"
+        columnMergeType :
+          AMOUNT : "SUM"
+
+    matchingRules :
+      matchCondition : "df1.TRANSACTION_REF = df2.TRANSACTION_REF AND df1.AMOUNT = df2.AMOUNT"
+      # Defines that all rows in file 1 should have a match
+      fileMatchType :
+        Piramal-Book-Data-SBI : "ALL"
+        # Defines that some rows in file 2 may or may not have a match
+        Piramal-Bank-Data-SBI : "SOME"

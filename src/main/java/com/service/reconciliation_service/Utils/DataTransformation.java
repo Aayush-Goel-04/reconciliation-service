@@ -58,12 +58,9 @@ public class DataTransformation {
     for(Map.Entry<String, String> newEntry : rules.entrySet()){
       String newColumnName = newEntry.getKey();
       // String[] columnsToOperate = newEntry.getValue().toArray(new String[0]);
-      try {
-        String expression = String.format(newEntry.getValue());
-        df = df.withColumn(newColumnName, expr(expression));
-      } catch (Exception e) {
-        ReconLog.writeLog("Might be an Illegal expression exception \n" + e.toString());
-      }
+      String expression = String.format(newEntry.getValue());
+      df = df.withColumn(newColumnName, expr(expression));
+
     }
     return df;
   }
