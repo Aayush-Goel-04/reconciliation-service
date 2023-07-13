@@ -25,12 +25,12 @@ public class ReconService {
             "./test_files/Piramal-Book-Data-SBI_3-7-2023.csv"};
     String configPath = "./Algofusion_1.yml";
 
-//    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
-//                      "./test_files/Piramal-Bank-File 21062023.xlsx"};
+//    String[] paths = {"./test_files/Piramal-Recon-File 21062023.csv",
+//                      "./test_files/Piramal-Bank-File 21062023.csv"};
 //    String configPath = "./zestRecon_1.yml";
 
 
-//    String[] paths = {"./test_files/Piramal-Recon-File 21062023.xlsx",
+//    String[] paths = {"./test_files/Piramal-Recon-File 21062023.csv",
 //                      "./test_files/Portfolio Report.csv"};
 //    String configPath = "./zestRecon_2.yml";
 
